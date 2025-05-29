@@ -18,13 +18,16 @@ import io
 import sys
 import traceback
 
-# Debug info display
+# Streamlit configuration MUST BE FIRST
 try:
-    st.sidebar.write("🔍 **Debug Info:**")
-    st.sidebar.write(f"Python: {sys.version[:5]}")
-    st.sidebar.write(f"Streamlit: {st.__version__}")
+    st.set_page_config(
+        page_title="AI Email Assistant",
+        page_icon="🤖",
+        layout="wide",
+        initial_sidebar_state="expanded"
+    )
 except Exception as e:
-    print(f"Debug info error: {e}")
+    print(f"Streamlit config error: {e}")
 
 # Google Drive & OAuth imports with error handling
 GOOGLE_DRIVE_AVAILABLE = False
@@ -69,17 +72,6 @@ def log(msg, level="info"):
         getattr(logging, level)(msg)
     except Exception as e:
         print(f"Logging error: {e} - Message: {msg}")
-
-# Streamlit configuration with error handling
-try:
-    st.set_page_config(
-        page_title="AI Email Assistant",
-        page_icon="🤖",
-        layout="wide",
-        initial_sidebar_state="expanded"
-    )
-except Exception as e:
-    log(f"Streamlit config error: {e}", "error")
 
 def load_custom_css():
     try:
@@ -1299,6 +1291,14 @@ def main():
 
         with st.sidebar:
             st.header("⚙️ Configuration")
+            
+            # Debug info (moved here to be after set_page_config)
+            try:
+                st.write("🔍 **Debug Info:**")
+                st.write(f"Python: {sys.version[:5]}")
+                st.write(f"Streamlit: {st.__version__}")
+            except Exception as e:
+                print(f"Debug info error: {e}")
             
             # OpenAI API Key Input
             with st.expander("🤖 OpenAI API Settings", expanded=True):
