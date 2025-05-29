@@ -1579,7 +1579,7 @@ def main():
         openai_configured = st.session_state.get('openai_api_key', '').startswith('sk-')
         
         st.write("**File Status:**")
-        st.write(f"📁 Emails CSV: {'✅' if csv_exists else '❌'}")
+        #st.write(f"📁 Emails CSV: {'✅' if csv_exists else '❌'}")
         st.write(f"☁️ Google Drive: {'✅' if drive_configured else '❌'}")
         st.write(f"🤖 OpenAI API: {'✅' if openai_configured else '❌'}")
         
