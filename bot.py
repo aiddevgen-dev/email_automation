@@ -1678,15 +1678,34 @@ if __name__ == '__main__':
         log(f"Critical error: {str(e)}", "error")
 
 
+# ✅ Enhanced conditional Drive loading with logging
+def safe_load_kb(email_user):
+    try:
+        if not email_user:
+            log("Email user not provided, skipping Drive KB load", "warning")
+            return {'total': 0, 'with_replies': 0, 'emails': [], 'user_email': 'unknown'}
+        if not os.path.exists(DRIVE_TOKEN_FILE) or not os.path.exists(DRIVE_CREDS_FILE):
+            log("Missing Google Drive credentials, skipping KB load", "warning")
+            return {'total': 0, 'with_replies': 0, 'emails': [], 'user_email': email_user}
+        kb = load_kb_from_drive(email_user)
+        log(f"KB loaded successfully for {email_user}, {kb.get('total',0)} emails")
+        return kb
+    except Exception as e:
+        log(f"Drive load error: {str(e)}", "error")
+        return {'total': 0, 'with_replies': 0, 'emails': [], 'user_email': email_user or 'unknown'}
+
+
+
 def main():
     st.sidebar.title("📬 AI Email Assistant")
-    tab = st.sidebar.radio("Navigation", ["Search & Load", "Reply Management", "Analytics"])
+    tab = st.sidebar.radio("Navigation", ["Search & Load", "Reply Management", "Analytics", "Settings"])
 
     email_user = st.sidebar.text_input("📧 Email", key="email_user")
     email_pass = st.sidebar.text_input("🔑 App Password", type="password", key="email_pass")
     openai_key = st.sidebar.text_input("🧠 OpenAI Key", type="password", key="openai_key")
 
     load_custom_css()
+    log(f"UI loaded with tab: {tab}, email_user: {'SET' if email_user else 'EMPTY'}")
 
     if not email_user or not email_pass:
         st.warning("Please enter email credentials to continue.")
@@ -1695,11 +1714,18 @@ def main():
     if tab == "Search & Load":
         st.subheader("📥 Search & Load Emails")
         if st.button("🔍 Start Email Load"):
+            log("Email load button clicked")
             search_and_load_emails(email_user, email_pass, "", "", None, None, 50)
     elif tab == "Reply Management":
+        log("Opening Reply Management tab")
         reply_management_section(email_user, email_pass, openai_key)
     elif tab == "Analytics":
-        display_metrics(load_kb_from_drive(email_user))
+        st.subheader("📊 Email Analytics")
+        kb = safe_load_kb(email_user)
+        display_metrics(kb)
+    elif tab == "Settings":
+        st.subheader("⚙️ System Settings")
+        st.info("More settings coming soon...")
 
 if __name__ == "__main__":
     main()
