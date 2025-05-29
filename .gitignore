@@ -1,0 +1,105 @@
+# Exclude other Python files (keep only bot.py)
+112.py
+app.py
+emails.csv.backup
+knowledge_base.json.backup
+*.backup
+email_automation
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+.env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+app.log
+logs/
+
+# Data Files (contains sensitive user data)
+emails.csv
+drafts.json
+*.csv
+*.json
+
+# Credentials & Secrets
+drive_credentials.json
+drive_token.json
+*.key
+*.pem
+credentials.json
+token.json
+.env
+config.ini
+
+# Custom Prompts (may contain business logic)
+custom_prompt.json
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Local development files
+test_*.py
+example_*.py
+demo_*.py
